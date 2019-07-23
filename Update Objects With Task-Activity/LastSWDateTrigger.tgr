@@ -1,0 +1,22 @@
+trigger LastSWDateTrigger on Task (after insert, after update) {
+    //To do - If the subject of a completed task contains "SW", put the date of the completed task in the
+    //the "Last_SW_Activity__c" field on the account object
+//Create a set of related account ID's
+Set <ID> acctIDs = new Set <ID> ();
+//For every task, add it's related to account ID to the set
+    for (Task t: Trigger.new){
+      acctIDs.add(t.accountID);
+//Create a map to match the task related to ID's with their corresponding account ID's
+      Map<ID, Account> acctMap = new Map<ID, Account> ([Select ID, Last_SW_Activity__c from Account where ID in :acctIDs]);
+//Create the account object
+      Account acctRec = acctMap.get(t.accountID);
+//If the account ID isn't null, the subject line starts with "sw", and the task has been marked as completed   
+    If ((t.accountID != null) &&(t.subject.indexOf('sw')==0) && (t.Status == 'Completed'))
+//Check to see if the Last_SW_Activity__c field is current compared with the latest completed activity
+      If (acctMap.get(t.accountID).Last_SW_Activity__c < t.LastModifiedDate || acctMap.get(t.accountID).Last_SW_Activity__c ==null){
+//Update the Last_SW_Activity__c field on the account object with the task's end date 
+          acctrec.Last_SW_Activity__c = t.LastModifiedDate;
+          update acctRec;
+    }
+  }
+}
