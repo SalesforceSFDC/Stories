@@ -1,0 +1,22 @@
+trigger TaskTrigger on Task (after insert, after update) {
+    Set<ID> leadIds = new Set<ID>;
+    String leadKeyPrefix = Lead sObjectType.getDescribe().getKeyPrefix();
+    for ( Task newTask : Trigger.new ) {
+        String whoId = newTask.whoId;
+        if (String.isNotBlank(whoId)) {
+            if (whoId.startWith( leadKeyPrefix )) {
+                leadIds.add(whoId);
+            }
+        }
+    }
+
+    List<Lead> leads = [ SELECT Id, Status FROM Lead WHERE Id IN :leadIds AND Status = 'Open - Not Contacted' ];
+
+    for ( Lead ld : leads ) {
+        ld.status = 'Working - Contacted';
+    }
+
+    if ( leads.size() > 0 ) {
+        update leads;
+    }
+}
