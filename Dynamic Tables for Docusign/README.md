@@ -16,7 +16,7 @@
 * Apex output of what the label should be
 * DocuSign Salesforce class
 * mail merge tool
-
+* Leverage [DocuSign for Salesforce Apex Toolkit](https://developers.docusign.com/salesforce/apex-toolkit-reference/index.html) to send dynamic `.pdf` files to DocuSign.
 
 * get DocuSign permission to get an API key
 * Bulk requests do not work with DocuSign API
