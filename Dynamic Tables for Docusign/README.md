@@ -2,10 +2,13 @@
 * `Interim_Onboarding__c` is a child of the `Onboarding_Application__c`, which is a child of `Account`
 * Leverage 
 
+Two options for generating dynamic templates in DocuSign templates:
+1.  Leverage Conga Composer managed package with Conga Mail Merge and/or Conga QuickMerge add-on features
+2.  Leverage the existing [DocuSign for Salesforce Apex Toolkit](https://developers.docusign.com/salesforce/apex-toolkit-reference/index.html).  We can create `Labels` in DocuSign.  Each label will store values which represent parametes of a row.  Then, we will call DocuSign API and pass the attributes of the 
 
 
 ### Conga Merge 
-
+https://support.conga.com/Conga_Composer
 ### 
 * Use code to send dynamic pdf to DocuSign
 * Leverage third party tools: Conga Merge
